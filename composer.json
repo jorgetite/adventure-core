@@ -1,0 +1,26 @@
+{
+    "name": "jtite/adventure-core",
+    "description": "Adventure game core",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Jorge Tite",
+        "email": "jorgetite@me.com"
+      }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "marc-mabe/php-enum" : "^1.0",
+        "php-ds/php-ds" : "^1.1"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^6.0"
+    },
+    "autoload": {
+      "psr-4": {"Adventure\\": "src/adventure"}
+    },
+    "autoload-dev": {
+      "psr-4": {"Adventure\\": "tests/adventure"}
+    }
+}
