@@ -16,6 +16,9 @@ use Ds\Set;
  * space is connected to other spaces through gateways, each gateway allows a
  * character in the game to gain access to one of the connected spaces.
  *
+ * <p>This class is based on the "World of Zuul" framework for writing very
+ * simple text-based adventure games.
+ *
  * @author    jorgetite
  * @since     3/16/17
  * @version   1.0
@@ -24,6 +27,7 @@ use Ds\Set;
 class Space
 {
     /**
+     * the spaces connected to this space in each possible direction
      * @var Map
      */
     private $gateways;
@@ -35,57 +39,100 @@ class Space
     private $description;
 
     /**
-     * Creates a new instance of space.
+     * Creates a new instance of Space with no gateways/connections to other
+     * spaces.
      *
-     * @param string    The space description
+     * @param string $desc
+     *        the space description
      */
     public function __construct(string $desc)
     {
+        if (empty($desc)) {
+            throw new \InvalidArgumentException("A description is required.");
+        }
+
         $this->description = $desc;
         $this->gateways = new Map();
     }
 
     /**
+     * Returns the description of this space.
+     *
      * @return string
+     *         this space description
      */
     public function getDescription() : string
     {
         return $this->description;
     }
 
-    public function getGatewaysDescription() : string
+    /**
+     * Returns a string listing the direction of a gateway leading to other
+     * space.
+     *
+     * @return string
+     *         a string containing directions leading to other spaces
+     */
+    public function getDirectionString() : string
     {
-        return "";
+        $str = "Gateways: ";
+        if ($this->gateways->isEmpty()) {
+            $str .= "none";
+        }
+        else {
+            $str .= implode(", ", $this->getGateways()->toArray());
+        }
+
+        return $str;
     }
 
     /**
+     * Returns a description of this space including information about the
+     * directions leading to connected spaces.
+     *
      * @return string
+     *         this space and gateways description
      */
     public function getFullDescription() : string
     {
-        return $this->description . $this->getGatewaysDescription();
+        return $this->description . " " . $this->getDirectionString();
     }
 
     /**
+     * Connects other space to this in the specified direction.
+     *
      * @param Direction $direction
+     *        the direction relative to this space
+     *
      * @param Space $space
+     *        other space connected to this space
      */
     public function setGateway(Direction $direction, Space $space) : void
     {
-        $this->gateways->put($direction, $space);
+        $this->gateways->put($direction->getValue(), $space);
     }
 
     /**
+     * Returns other space connected to this space in the spoecified direction.
+     *
      * @param Direction $direction
+     *        the direction relative to this space
+     *
      * @return Space
+     *         other space connect to this space or null if no space is found
+     *         in the specified direction
      */
-    public function getGateway(Direction $direction) : Space
+    public function getGateway(Direction $direction) : ?Space
     {
-        return $this->gateways->get($direction);
+        return $this->gateways->get($direction->getValue(), null);
     }
 
     /**
+     * Returs a set of the directions leading to other spaces connected to this
+     * space.
+     *
      * @return Set
+     *         a list of directions leading to other spaces
      */
     public function getGateways() : Set
     {
