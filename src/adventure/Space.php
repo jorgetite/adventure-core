@@ -27,14 +27,14 @@ use Ds\Set;
 class Space
 {
     /**
-     * the spaces connected to this space in each possible direction
      * @var Map
+     *      the spaces connected to this space in each possible direction
      */
     private $gateways;
 
     /**
-     * The space description
      * @var string
+     *      the space description
      */
     private $description;
 

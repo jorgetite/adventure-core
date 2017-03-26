@@ -21,8 +21,8 @@ use PHPUnit\Framework\TestCase;
 class SpaceTest extends TestCase
 {
     /**
-     * the fixture for this test
      * @var Space
+     *      the fixture for this test
      */
     private $space;
 
