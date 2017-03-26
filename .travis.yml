@@ -8,19 +8,13 @@ cache:
 
 php:
   - 7.1
-  - hhvm
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: hhvm
 
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
 
 script:
-  - phpunit --coverage-clover coverage.xml
+  - phpunit --coverage-text
 
 notifications:
     on_success: never
