@@ -16,7 +16,7 @@ use Ds\Set;
  * space is connected to other spaces through gateways, each gateway allows a
  * character in the game to gain access to one of the connected spaces.
  *
- * <p>This class is based on the "World of Zuul" framework for writing very
+ * This class is based on the "World of Zuul" framework for writing very
  * simple text-based adventure games.
  *
  * @author    jorgetite
@@ -128,7 +128,7 @@ class Space
     }
 
     /**
-     * Returs a set of the directions leading to other spaces connected to this
+     * Returns a set of the directions leading to other spaces connected to this
      * space.
      *
      * @return Set
