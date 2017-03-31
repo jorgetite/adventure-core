@@ -48,7 +48,7 @@ class CommandMap
      * @param Command $command
      *        an instance of Command interface
      */
-    public function add(string $word, Command $command) : void
+    public function addCommand(string $word, Command $command) : void
     {
         $this->map->put($word, $command);
     }
@@ -64,7 +64,7 @@ class CommandMap
      *         an instance of Command associated with the given word or null
      *         if the command word is not found
      */
-    public function get(string $word) : ?Command
+    public function getCommand(string $word) : ?Command
     {
         return $this->map->get($word, null);
     }
