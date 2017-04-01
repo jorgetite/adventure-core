@@ -56,8 +56,8 @@ class Parser
             $words = explode(" ", $input, 2);
             $command = $this->commands->getCommand($words[0]);
 
-            if ($command != null && !empty($words[1])) {
-                $command->setArguments($words[1]);
+            if ($command != null) {
+                $command->setArguments(empty($words[1]) ? "" : $words[1]);
             }
         }
 

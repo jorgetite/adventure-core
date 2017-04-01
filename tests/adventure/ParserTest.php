@@ -51,6 +51,7 @@ class ParserTest extends TestCase
 
         $this->assertNotNull($command);
         $this->assertInstanceOf(Command::class, $command);
+        $this->assertEquals("", $command->getArguments());
     }
 
     /**
