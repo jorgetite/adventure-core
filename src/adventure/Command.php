@@ -19,7 +19,7 @@ namespace Adventure;
  * simple text-based adventure games.
  *
  * @author    jorgetite
- * @since     3/1
+ * @since     3/16/2017
  * @version   1.0
  * @copyright Copyright (c) 2017 Jorge Tite
  */
@@ -77,8 +77,11 @@ abstract class Command
     /**
      * Executes this command and returns the result of the operation.
      *
+     * @param Character $character
+     *        The game character
+     *
      * @return string
      *         the string containing the result of the command
      */
-    public abstract function execute() : string;
+    public abstract function execute(Character $character) : string;
 }
