@@ -6,9 +6,9 @@
  * copyright information.
  */
 
-namespace Adventure;
+namespace Adventure\Command;
 
-use Adventure\Command\Quit;
+use Adventure\Character;
 use PHPUnit\Framework\TestCase;
 
 /**
