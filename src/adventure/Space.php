@@ -113,7 +113,7 @@ class Space
     }
 
     /**
-     * Returns other space connected to this space in the spoecified direction.
+     * Returns the space connected to this space in the given direction.
      *
      * @param Direction $direction
      *        the direction relative to this space
