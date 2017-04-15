@@ -64,7 +64,8 @@ class CommandTest extends TestCase
      */
     public function testExecute() : void
     {
-        $result = $this->command->execute();
+        $character = new Character();
+        $result = $this->command->execute($character);
 
         $this->assertEquals("result", $result);
     }

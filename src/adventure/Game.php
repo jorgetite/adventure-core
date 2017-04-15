@@ -115,7 +115,7 @@ abstract class Game
     public abstract function getWelcomeMessage() : string;
 
     /**
-     * Process the player's request and executes the command matching the input.
+     * Process the player's request by executing the command matching the input.
      *
      * @param string $input
      *        the player's input
@@ -130,7 +130,7 @@ abstract class Game
         }
 
         if ($this->character->hasQuit()) {
-            return "Bye, thanks for playing.";
+            return "Bye! Thanks for playing.";
         }
 
         $command = $this->parser->matchCommand($input, $this->commands);
