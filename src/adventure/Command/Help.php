@@ -25,7 +25,7 @@ use Adventure\CommandMap;
 class Help extends Command
 {
     /**
-     * @var Set
+     * @var CommandMap
      *      the commands valid for the adventure game
      */
     private $cmdMap;
@@ -38,6 +38,7 @@ class Help extends Command
      */
     public function __construct(CommandMap $cmdMap)
     {
+        parent::__construct();
         $this->cmdMap = $cmdMap;
     }
 
