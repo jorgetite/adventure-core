@@ -11,10 +11,10 @@ namespace Adventure;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Character class tests
+ * Scenery class tests
  *
  * @author    jorgetite
- * @since     4/1/17
+ * @since     2017-04-01
  * @version   1.0
  * @copyright Copyright (c) 2017 Jorge Tite
  */
@@ -30,7 +30,7 @@ class SceneryTest extends TestCase
         $scenery = $this->getMockForAbstractClass(Scenery::class);
 
         $scenery->expects($this->any())
-            ->method('setUp')
+            ->method('getOpeningSpace')
             ->will($this->returnValue(new Space("test")));
 
         $this->assertEquals(0, $scenery->getSpaces()->count());
@@ -39,13 +39,13 @@ class SceneryTest extends TestCase
     }
 
     /**
-     * test setUp method
+     * test getOpeningSpace method
      *
      * @param Scenery $scenery
      * @depends testNewScenery
      */
-    public function testSetUp(Scenery $scenery) : void
+    public function testGetOpeningSpace(Scenery $scenery) : void
     {
-        $this->assertEquals("test", $scenery->setUp()->getDescription());
+        $this->assertEquals("test", $scenery->getOpeningSpace()->getDescription());
     }
 }

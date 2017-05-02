@@ -11,10 +11,10 @@ use Ds\Set;
 
 /**
  * This class represents a scenery in an adventure game. A scenery is a
- * collection of spaces interconnected between them through gateways.
+ * collection of spaces interconnected through gateways.
  *
  * @author    jorgetite
- * @since     3/16/17
+ * @since     2017-03-16
  * @version   1.0
  * @copyright Copyright (c) 2017 Jorge Tite
  */
@@ -32,17 +32,23 @@ abstract class Scenery
     public function __construct()
     {
         $this->spaces = new Set();
+        $this->createSpaces();
     }
 
     /**
-     * Sets up the scenery for an adventure game and returns the starting space.
-     * Concrete implementations of this method must create the spaces and the
-     * gateways connecting those spaces.
+     * Sets up the scenery for an adventure game. Concrete implementations of
+     * this method must create the spaces and th gateways connecting those
+     * spaces.
+     */
+    protected abstract function createSpaces() : void;
+
+    /**
+     * Returns the opening space in this scenery.
      *
      * @return Space
-     *         the first space i the adventure game scenery
+     *         the opening space
      */
-    public abstract function setUp() : Space;
+    public abstract function getOpeningSpace() : Space;
 
     /**
      * Returns a collection of all the spaces available in an adventure game.
