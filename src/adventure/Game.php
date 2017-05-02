@@ -8,14 +8,15 @@
 namespace Adventure;
 
 /**
- * The Game class provides the basic functionality to create adventure games and
- * it should be extended to create more complex adventure games.
+ * The Game class provides the basic functionality to create adventure
+ * games. Developers must extend this class in order to create their own
+ * adventure games.
  *
  * This class is based on the "World of Zuul" adventure game example from
  * Chapter 7 of Objects First with Java by Michael Kolling and David Barnes.
  *
  * @author    jorgetite
- * @since     3/16/17
+ * @since     2017-03-01
  * @version   1.0
  * @copyright Copyright (c) 2017 Jorge Tite
  */
@@ -23,55 +24,68 @@ abstract class Game
 {
     /**
      * @var Character
+     *      the main character in this adventure game
      */
     private $character;
 
     /**
      * @var Scenery
+     *      the game's scenery
      */
     private $scenery;
 
     /**
-     * @var Parser
-     */
-    private $parser;
-
-    /**
      * @var CommandMap
+     *      the game's commands
      */
     private $commands;
+
+    /**
+     * @var Parser
+     *      the game's input parser
+     */
+    private $parser;
 
     /**
      * Game constructor.
      *
      * @param Character $character
      * @param Scenery $scenery
-     * @param Parser $parser
      */
-    public function __construct(Character $character, Scenery $scenery, Parser $parser)
+    public function __construct(Character $character, Scenery $scenery)
     {
         $this->character = $character;
-        $this->scenery   = $scenery;
-        $this->parser    = $parser;
-        $this->commands  = new CommandMap();
+        $this->scenery = $scenery;
 
-        $this->initialize();
+        $this->parser = $this->createParser();
+        $this->commands = $this->createCommandMap();
+
+        $this->character->setCurrentSpace($this->scenery->getOpeningSpace());
     }
 
     /**
-     * Initializes this adventure game.
+     * Creates the commands for this adventure game.
+     *
+     * @return CommandMap
+     *         the commands for the game
      */
-    private function initialize() : void
-    {
-        $current = $this->scenery->setUp();
-        $this->character->setCurrentSpace($current);
-        $this->initCommands();
-    }
+    protected abstract function createCommandMap() : CommandMap;
 
     /**
-     * Initializes the commands for this adventure game.
+     * Creates the input parser for this adventure game.
+     *
+     * @return Parser
+     *         the input parser
      */
-    protected abstract function initCommands() : void;
+    protected abstract function createParser() : Parser;
+
+    /**
+     * Returns the welcome message for an adventure game.
+     *
+     * @return string
+     *         a welcome message
+     */
+    public abstract function getWelcomeMessage() : string;
 
     /**
      * Returns the character in this adventure game.
@@ -85,10 +99,10 @@ abstract class Game
     }
 
     /**
-     * Returns the scenery of this adventure game.
+     * Returns the scenery for this adventure game.
      *
      * @return Scenery
-     *         the scenery of this game.
+     *         the game scenery
      */
     public final function getScenery() : Scenery
     {
@@ -96,26 +110,7 @@ abstract class Game
     }
 
     /**
-     * Returns the Parser used by this adventure game.
-     *
-     * @return Parser
-     *         the parser used by this game
-     */
-    public final function getParser() : Parser
-    {
-        return $this->parser;
-    }
-
-    /**
-     * Returns the welcome message for this adventure game.
-     *
-     * @return string
-     *         the welcome message
-     */
-    public abstract function getWelcomeMessage() : string;
-
-    /**
-     * Process the player's request by executing the command matching the input.
+     * Process the player's input and returns the result of the process.
      *
      * @param string $input
      *        the player's input
@@ -130,25 +125,25 @@ abstract class Game
         }
 
         if ($this->character->hasQuit()) {
-            return "Bye! Thanks for playing.";
+            return "The game has ended. Thanks for playing.";
         }
 
         $command = $this->parser->matchCommand($input, $this->commands);
 
-        if ($command != null) {
-            $message = $command->execute();
-
-            if ($this->character->hasWon()) {
-                $message .= " " . "Congratulations, you won!";
-            }
-
-            if ($this->character->hasQuit()) {
-                $message .= " " . "Thanks for playing.";
-            }
-
-            return $message;
+        if ($command == null) {
+            return "I don't understand that word.";
         }
 
-        return "I don't understand that word.";
+        $message = $command->execute($this->character);
+
+        if ($this->character->hasWon()) {
+            $message .= " " . "Congratulations, you won!";
+        }
+
+        if ($this->character->hasQuit()) {
+            $message .= " " . "Thanks for playing.";
+        }
+
+        return $message;
     }
 }
