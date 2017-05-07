@@ -51,14 +51,18 @@ abstract class Game
      *
      * @param Character $character
      * @param Scenery $scenery
+     * @param Parser|null $parser
      */
-    public function __construct(Character $character, Scenery $scenery)
+    public function __construct(Character $character, Scenery $scenery, ?Parser $parser = null)
     {
-        $this->character = $character;
-        $this->scenery = $scenery;
+        if (empty($parser)) {
+            $parser = new TokenParser();
+        }
 
-        $this->parser = $this->createParser();
-        $this->commands = $this->createCommandMap();
+        $this->character = $character;
+        $this->scenery   = $scenery;
+        $this->parser    = $parser;
+        $this->commands  = $this->createCommandMap();
 
         $this->character->setCurrentSpace($this->scenery->getOpeningSpace());
     }
@@ -70,14 +74,6 @@ abstract class Game
      *         the commands for the game
      */
     protected abstract function createCommandMap() : CommandMap;
-
-    /**
-     * Creates the input parser for this adventure game.
-     *
-     * @return Parser
-     *         the input parser
-     */
-    protected abstract function createParser() : Parser;
 
     /**
      * Returns the welcome message for an adventure game.
@@ -107,6 +103,17 @@ abstract class Game
     public final function getScenery() : Scenery
     {
         return $this->scenery;
+    }
+
+    /**
+     * Returns the input parser for this adventure game.
+     *
+     * @return Parser
+     *         the input parser
+     */
+    public final function getParser(): Parser
+    {
+        return $this->parser;
     }
 
     /**

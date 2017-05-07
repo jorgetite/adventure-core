@@ -9,6 +9,7 @@
 namespace Adventure;
 
 use Adventure\Test\TestGame;
+use Adventure\Test\TestScenery;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -45,11 +46,7 @@ class GameTest extends TestCase
     public function setUp() : void
     {
         $this->character = new Character();
-
-        $this->scenery = $this->getMockForAbstractClass(Scenery::class);
-        $this->scenery->expects($this->any())
-            ->method('getOpeningSpace')
-            ->will($this->returnValue(new Space("Test space")));
+        $this->scenery   = new TestScenery();
 
         $this->game = new TestGame($this->character, $this->scenery);
     }
@@ -61,8 +58,19 @@ class GameTest extends TestCase
     {
         $this->assertEquals($this->character, $this->game->getCharacter());
         $this->assertEquals($this->scenery, $this->game->getScenery());
-        $this->assertEquals("Test space",
+        $this->assertEquals("Center space.",
             $this->game->getCharacter()->getCurrentSpace()->getDescription());
+    }
+
+    /**
+     * Test the creation of a new game defining a parser
+     */
+    public function testNewGameWithParser() : void
+    {
+        $parser = new TokenParser("*");
+        $game = new TestGame($this->character, $this->scenery, $parser);
+
+        $this->assertSame($parser, $game->getParser());
     }
 
     /**
@@ -79,7 +87,7 @@ class GameTest extends TestCase
     public function testProcessInput() : void
     {
         $res = $this->game->processInput("move north");
-        $this->assertEquals("There is nothing in that direction.", $res);
+        $this->assertEquals("North space.", $res);
     }
 
     /**

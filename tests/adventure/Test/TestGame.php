@@ -36,11 +36,6 @@ class TestGame extends Game
         return $cm;
     }
 
-    protected function createParser(): Parser
-    {
-        return new TokenParser();
-    }
-
     public function getWelcomeMessage(): string
     {
         return "Welcome!";
